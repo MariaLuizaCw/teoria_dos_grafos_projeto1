@@ -79,6 +79,7 @@ class biblioteca{
         int bfs(int ini, int fim){
             ini--;
             fim--;
+            if(matriz == 0){
             vector<int>dist(numVertices, -1);
             vector<int>pai(numVertices, -1);
             vector<int>nivel(numVertices, -1);
@@ -102,7 +103,35 @@ class biblioteca{
                     q.push(vizinho);
                 }
             }
-        };
+            }else{
+                vector<int>dist(numVertices, -1);
+                vector<int>pai(numVertices, -1);
+                vector<int>nivel(numVertices, -1);
+                queue<int>q;
+                q.push(ini);
+                dist[ini] = 0;
+                nivel[ini] = 0;
+                while (!q.empty()){
+                    int f = q.front();
+                    q.pop();
+                    if(f == fim){
+                        GerarArquivoBusca(pai, nivel);
+                        return dist[fim];
+                    }
+                    
+                    for(int i=0; i< numVertices; i++){
+                        if(grafo[f][i] == 1){
+                            if(dist[i] != -1) continue;
+                            dist[i] = dist[f] + 1;
+                            pai[i] = f;
+                            nivel[i] = nivel[f] + 1;
+                            q.push(i);
+                        }    
+                    }
+                }
+            }
+                
+    };
 
     int Distancia(int ini, int fim){
         return bfs(ini, fim);
