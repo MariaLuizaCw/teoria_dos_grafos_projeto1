@@ -46,7 +46,7 @@ class biblioteca{
             for(int i = 0; i < numVertices; i++){
                 cout << i << "->";
                 for(int j: VetorAdj[i]){
-                     cout << j << " , ";
+                     cout << j << ", ";
                 }
                 cout << "\n";
             }
@@ -61,10 +61,10 @@ class biblioteca{
         };
 
         int bfs(int ini, int fim){
-            ini--;
-            fim--;
+
             vector<int>dist(numVertices, -1);
-            //memset(dist, -1, numVertices);
+    
+            // memset(dist, -1, numVertices);
             queue<int>q;
             q.push(ini);
             dist[ini] = 0;
@@ -84,6 +84,8 @@ class biblioteca{
         };
 
     int Distancia(int ini, int fim){
+        ini--;
+        fim--;
         return bfs(ini, fim);
     }
 
@@ -120,6 +122,7 @@ int main() {
     teste.ImprimeMatrizAdj();
     teste.ImprimeVetorAdj();
     //cin >> u >> v;
-    cout << teste.Distancia(1,3)<< " " << teste.Diametro() << "\n";
+    cout << teste.Diametro() << '\n';
+    //cout << teste.Distancia(1,3)<< " " << teste.Diametro() << "\n";
     return 0;
 }
