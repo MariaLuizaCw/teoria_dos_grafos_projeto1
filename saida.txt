@@ -1,0 +1,6 @@
+Número de Vértices: 5 
+Números de Arestas: 6 
+Grau Mínimo: 1 
+Grau Máximo: 4 
+Grau Médio: 2.400000 
+Mediana de Grau: 2 
