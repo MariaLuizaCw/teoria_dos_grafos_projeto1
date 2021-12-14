@@ -16,7 +16,7 @@ class biblioteca{
             float medio = 0;
             vector<int>graus(numVertices);
             int v,u;
-            if(matriz = 1){
+            if(matriz == 1){
                 vector<vector<int>>arestasMatriz(numVertices , vector<int>(numVertices ));
                 while(cin >> v >> u){
                     numArestas += 1;
@@ -62,7 +62,7 @@ class biblioteca{
         };
         
 
-        int GerarArquivoBusca(vector<int> &pai, vector<int> &nivel){
+        void GerarArquivoBusca(vector<int> &pai, vector<int> &nivel){
             FILE *arq;
             int i;
             int result;
@@ -76,79 +76,118 @@ class biblioteca{
             }
             fclose(arq);
         };
-        
-        int bfs(int ini, int fim){
+        vector<int> dfs(int ini){
             ini--;
-            fim--;
+            vector<int>pai(numVertices, -1);
+            vector<int>nivel(numVertices, -1);
+            vector<int>marcado(numVertices, -1);
+            stack<int>s;
+            s.push(ini);
+            nivel[ini] = 0;
             if(matriz == 0){
-                vector<int>dist(numVertices, -1);
+                while (!s.empty()){
+                    int f = s.top();
+                    s.pop();        
+                    if(marcado[f] != -1) continue;    
+                    marcado[f] = 1;
+                    for(int vizinho:grafo[f]){
+                        s.push(vizinho);
+                        if(marcado[vizinho] == 1) continue;
+                        pai[vizinho] = f;
+                        nivel[vizinho] = nivel[f] + 1;
+                    }
+                }
+            }else{
+                while (!s.empty()){
+                    int f = s.top();
+                    s.pop();
+                    if(marcado[f] != -1) continue;  
+                    cout << "analiando: " << f << '\n';
+                    marcado[f] = 1;
+                    for(int i=0; i< numVertices; i++){
+                        if(grafo[f][i] == 1){
+                            s.push(i);
+                            if(marcado[i] == 1) continue;
+                            cout << "vizinho: " << i << '\n';
+                            pai[i] = f;
+                            cout << "pai vizinho: " << f << '\n';
+                            nivel[i] = nivel[f] + 1;
+                        }    
+                    }
+                }
+               
+            }
+            GerarArquivoBusca(pai, nivel);
+            return nivel;
+        };
+        
+        vector<int> bfs(int ini){
+            ini--;
+            if(matriz == 0){
                 vector<int>pai(numVertices, -1);
                 vector<int>nivel(numVertices, -1);
                 queue<int>q;
                 q.push(ini);
-                dist[ini] = 0;
                 nivel[ini] = 0;
                 while (!q.empty()){
                     int f = q.front();
-                    q.pop();
-                    if(f == fim){
-                        GerarArquivoBusca(pai, nivel);
-                        return dist[fim];
-                    }
-                    
+      
+                    q.pop();            
                     for(int vizinho:grafo[f]){
-                        if(dist[vizinho] != -1) continue;
-                        dist[vizinho] = dist[f] + 1;
+                        if(nivel[vizinho] != -1) continue;
                         pai[vizinho] = f;
                         nivel[vizinho] = nivel[f] + 1;
                         q.push(vizinho);
                     }
                 }
+                GerarArquivoBusca(pai, nivel);
+                for(int i = 0; i< numVertices; i++){
+                    cout << i << ' ' << nivel[i] << '\n';
+                }
+                return nivel;
             }else{
-                vector<int>dist(numVertices, -1);
                 vector<int>pai(numVertices, -1);
                 vector<int>nivel(numVertices, -1);
                 queue<int>q;
                 q.push(ini);
-                dist[ini] = 0;
                 nivel[ini] = 0;
                 while (!q.empty()){
                     int f = q.front();
                     q.pop();
-                    if(f == fim){
-                        GerarArquivoBusca(pai, nivel);
-                        return dist[fim];
-                    }
-                    
                     for(int i=0; i< numVertices; i++){
                         if(grafo[f][i] == 1){
-                            if(dist[i] != -1) continue;
-                            dist[i] = dist[f] + 1;
+                            if(nivel[i] != -1) continue;
                             pai[i] = f;
                             nivel[i] = nivel[f] + 1;
                             q.push(i);
                         }    
                     }
                 }
+                GerarArquivoBusca(pai, nivel);
+                for(int i = 0; i< numVertices; i++){
+                     cout << i << ' ' << nivel[i] << '\n';
+                }
+                return nivel;
             }
                 
     };
 
     int Distancia(int ini, int fim){
-        int dist =  bfs(ini, fim);
+        vector<int> niveis = bfs(ini);
         FILE *arq;
-        arq = fopen("Distância.txt", "wt");
-        fprintf(arq,"Distância entre %d e %d: %d\n",ini,fim, dist);
+        arq = fopen("Distancia.txt", "wt");
+        fprintf(arq,"Distância entre %d e %d: %d\n",ini,fim, niveis[fim-1]);
         fclose(arq);
-        return dist;
+        return niveis[fim-1];
     }
 
     int Diametro(){
         int max = -1;
         for(int i = 1; i <= numVertices; i++){
+            vector<int>niveis = bfs(i);
             for(int j = 1; j <= numVertices; j++){
                 if(j != i){
-                    int d = bfs(i, j);
+                    int d = niveis[j-1];
                     if(d > max){
                         max = d;
                     }
@@ -175,13 +214,13 @@ int main() {
     cin.tie(NULL);
     int numVertices,u,v;
     cin >> numVertices;
-    biblioteca teste(numVertices, 1);
+    biblioteca teste(numVertices, 0);
     teste.InsertGrafo();
     // cout << teste.NumVertices() << " " << teste.NumArestas() << "\n";
     //cin >> u >> v;
-    teste.bfs(1, 3);
-    cout << teste.Distancia(2,3) << "\n";
-    cout << teste.Diametro();
+    teste.dfs(2);
+    // cout << teste.Distancia(2,3) << "\n";
+    // cout << teste.Diametro();
    
     return 0;
 }
