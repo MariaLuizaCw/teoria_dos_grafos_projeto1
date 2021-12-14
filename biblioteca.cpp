@@ -7,6 +7,9 @@ class biblioteca{
     int numVertices;
     int numArestas = 0;
     int matriz;
+    int atualComponente;
+    vector<vector<int>>vertices;
+    vector<int>componentes;
     vector<vector<int>>grafo;
     public:
         biblioteca(int, int);
@@ -90,11 +93,14 @@ class biblioteca{
                     s.pop();        
                     if(marcado[f] != -1) continue;    
                     marcado[f] = 1;
+                    componentes[f] = atualComponente;
+                    vertices[atualComponente].push_back(f);
                     for(int vizinho:grafo[f]){
                         s.push(vizinho);
                         if(marcado[vizinho] == 1) continue;
                         pai[vizinho] = f;
                         nivel[vizinho] = nivel[f] + 1;
+                        
                     }
                 }
             }else{
@@ -104,6 +110,8 @@ class biblioteca{
                     if(marcado[f] != -1) continue;  
                     cout << "analiando: " << f << '\n';
                     marcado[f] = 1;
+                    componentes[f] = atualComponente;
+                    vertices[atualComponente].push_back(f);
                     for(int i=0; i< numVertices; i++){
                         if(grafo[f][i] == 1){
                             s.push(i);
@@ -118,9 +126,32 @@ class biblioteca{
                
             }
             GerarArquivoBusca(pai, nivel);
-            return nivel;
+            return marcado;
         };
         
+        void conexao(){
+            componentes.resize(numVertices);
+            vertices.resize(numVertices + 1);
+            atualComponente = 1;
+            for(int i =0; i< numVertices; i++){
+                if(componentes[i] == 0){
+                    dfs(i);
+                    atualComponente += 1;
+                }
+            }
+            FILE *arq;
+            arq = fopen("Conexao.txt", "wt");
+            for(int i= 0; i< numVertices; i++){
+                fprintf(arq,"Componentes conexos %d:", i);
+                for(int v: vertices[i]){
+                    fprintf(arq,"%d, ", v);
+                }
+            }
+            
+            fclose(arq);
+        }
+
+
         vector<int> bfs(int ini){
             ini--;
             if(matriz == 0){
