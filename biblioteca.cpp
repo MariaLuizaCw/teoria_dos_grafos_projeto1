@@ -7,9 +7,7 @@ class biblioteca{
     int numVertices;
     int numArestas = 0;
     int matriz;
-    int atualComponente;
-    vector<vector<int>>vertices;
-    vector<int>componentes;
+    
     vector<vector<int>>grafo;
     public:
         biblioteca(int, int);
@@ -93,8 +91,6 @@ class biblioteca{
                     s.pop();        
                     if(marcado[f] != -1) continue;    
                     marcado[f] = 1;
-                    componentes[f] = atualComponente;
-                    vertices[atualComponente].push_back(f);
                     for(int vizinho:grafo[f]){
                         s.push(vizinho);
                         if(marcado[vizinho] == 1) continue;
@@ -110,8 +106,6 @@ class biblioteca{
                     if(marcado[f] != -1) continue;  
                     cout << "analiando: " << f << '\n';
                     marcado[f] = 1;
-                    componentes[f] = atualComponente;
-                    vertices[atualComponente].push_back(f);
                     for(int i=0; i< numVertices; i++){
                         if(grafo[f][i] == 1){
                             s.push(i);
@@ -129,13 +123,51 @@ class biblioteca{
             return marcado;
         };
         
+        void componentesConexos(int ini, vector<int> &componentes, vector<vector<int>> &vertices,int atualComponente){
+            ini--;
+            
+            vector<int>marcado(numVertices, -1);
+            stack<int>s;
+            s.push(ini);
+
+            if(matriz == 0){
+                while (!s.empty()){
+                    int f = s.top();
+                    s.pop();        
+                    if(marcado[f] != -1) continue;    
+                    marcado[f] = 1;
+                    componentes[f] = atualComponente;
+                    vertices[atualComponente].push_back(f);
+                    for(int vizinho:grafo[f]){
+                        s.push(vizinho);
+                    }
+                }
+            }else{
+                while (!s.empty()){
+                    int f = s.top();
+                    s.pop();
+                    if(marcado[f] != -1) continue;  
+                    marcado[f] = 1;
+                    componentes[f] = atualComponente;
+                    vertices[atualComponente].push_back(f);
+                    for(int i=0; i< numVertices; i++){
+                        if(grafo[f][i] == 1){
+                            s.push(i);
+                        }    
+                    }
+                }
+               
+            }
+        };       
+
         void conexao(){
-            componentes.resize(numVertices);
-            vertices.resize(numVertices + 1);
+            int atualComponente;
+            vector<vector<int>>vertices;
+            vector<int>componentes;
             atualComponente = 1;
-            for(int i =0; i< numVertices; i++){
+            for(int i =1; i<= numVertices; i++){
                 if(componentes[i] == 0){
-                    dfs(i);
+                    componentesConexos(i, componentes, vertices, atualComponente);
                     atualComponente += 1;
                 }
             }
@@ -149,7 +181,7 @@ class biblioteca{
             }
             
             fclose(arq);
-        }
+        };
 
 
         vector<int> bfs(int ini){
