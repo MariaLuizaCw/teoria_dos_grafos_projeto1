@@ -181,7 +181,7 @@ int main() {
     //cin >> u >> v;
     teste.bfs(1, 3);
     cout << teste.Distancia(2,3) << "\n";
-    cout << teste.Diametro();
+    cout <<teste.Diametro();
    
     return 0;
 }
