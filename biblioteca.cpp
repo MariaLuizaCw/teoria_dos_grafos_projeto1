@@ -66,7 +66,7 @@ class biblioteca{
             FILE *arq;
             int i;
             int result;
-            // clrscr();
+         
             arq = fopen("resultado_busca.txt", "wt");
             for (i = 0; i < numVertices; i++)
             {
@@ -76,6 +76,7 @@ class biblioteca{
             }
             fclose(arq);
         };
+        
         int bfs(int ini, int fim){
             ini--;
             fim--;
@@ -134,7 +135,12 @@ class biblioteca{
     };
 
     int Distancia(int ini, int fim){
-        return bfs(ini, fim);
+        int dist =  bfs(ini, fim);
+        FILE *arq;
+        arq = fopen("Distância.txt", "wt");
+        fprintf(arq,"Distância entre %d e %d: %d\n",ini,fim, dist);
+        fclose(arq);
+        return dist;
     }
 
     int Diametro(){
@@ -149,9 +155,13 @@ class biblioteca{
                 }
             }
         }
+        FILE *arq;
+        arq = fopen("Diametro.txt", "wt");
+        fprintf(arq,"Diametro: %d\n",max);
+        fclose(arq);
         return max;
     };
-        
+
 };
 
 biblioteca::biblioteca(int n, int m){
@@ -170,6 +180,8 @@ int main() {
     // cout << teste.NumVertices() << " " << teste.NumArestas() << "\n";
     //cin >> u >> v;
     teste.bfs(1, 3);
-    //cout << teste.Distancia(1,3)<< " " << teste.Diametro() << "\n";
+    cout << teste.Distancia(2,3) << "\n";
+    cout << teste.Diametro();
+   
     return 0;
 }
