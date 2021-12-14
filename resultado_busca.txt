@@ -1,5 +1,5 @@
 Vértice 1: pai = 0 e nivel = 0 
 Vértice 2: pai = 1 e nivel = 1 
 Vértice 3: pai = 5 e nivel = 2 
-Vértice 4: pai = 2 e nivel = 2 
+Vértice 4: pai = 5 e nivel = 2 
 Vértice 5: pai = 1 e nivel = 1 

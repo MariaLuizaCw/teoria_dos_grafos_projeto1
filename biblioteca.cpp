@@ -80,29 +80,29 @@ class biblioteca{
             ini--;
             fim--;
             if(matriz == 0){
-            vector<int>dist(numVertices, -1);
-            vector<int>pai(numVertices, -1);
-            vector<int>nivel(numVertices, -1);
-            queue<int>q;
-            q.push(ini);
-            dist[ini] = 0;
-            nivel[ini] = 0;
-            while (!q.empty()){
-                int f = q.front();
-                q.pop();
-                if(f == fim){
-                    GerarArquivoBusca(pai, nivel);
-                    return dist[fim];
+                vector<int>dist(numVertices, -1);
+                vector<int>pai(numVertices, -1);
+                vector<int>nivel(numVertices, -1);
+                queue<int>q;
+                q.push(ini);
+                dist[ini] = 0;
+                nivel[ini] = 0;
+                while (!q.empty()){
+                    int f = q.front();
+                    q.pop();
+                    if(f == fim){
+                        GerarArquivoBusca(pai, nivel);
+                        return dist[fim];
+                    }
+                    
+                    for(int vizinho:grafo[f]){
+                        if(dist[vizinho] != -1) continue;
+                        dist[vizinho] = dist[f] + 1;
+                        pai[vizinho] = f;
+                        nivel[vizinho] = nivel[f] + 1;
+                        q.push(vizinho);
+                    }
                 }
-                
-                for(int vizinho:grafo[f]){
-                    if(dist[vizinho] != -1) continue;
-                    dist[vizinho] = dist[f] + 1;
-                    pai[vizinho] = f;
-                    nivel[vizinho] = nivel[f] + 1;
-                    q.push(vizinho);
-                }
-            }
             }else{
                 vector<int>dist(numVertices, -1);
                 vector<int>pai(numVertices, -1);
