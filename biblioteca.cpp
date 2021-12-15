@@ -124,8 +124,6 @@ class biblioteca{
         };
         
         void componentesConexos(int ini, vector<int> &componentes, vector<vector<int>> &vertices,int atualComponente){
-            ini--;
-            
             vector<int>marcado(numVertices, -1);
             stack<int>s;
             s.push(ini);
@@ -162,22 +160,30 @@ class biblioteca{
 
         void conexao(){
             int atualComponente;
-            vector<vector<int>>vertices;
-            vector<int>componentes;
-            atualComponente = 1;
-            for(int i =1; i<= numVertices; i++){
-                if(componentes[i] == 0){
+            vector<vector<int>>vertices(numVertices);
+            vector<int>componentes(numVertices, -1);
+            atualComponente = 0;
+            for(int i =0 ; i< numVertices; i++){
+                if(componentes[i] == -1){
                     componentesConexos(i, componentes, vertices, atualComponente);
                     atualComponente += 1;
                 }
             }
+
+    
             FILE *arq;
             arq = fopen("Conexao.txt", "wt");
-            for(int i= 0; i< numVertices; i++){
-                fprintf(arq,"Componentes conexos %d:", i);
-                for(int v: vertices[i]){
-                    fprintf(arq,"%d, ", v);
+
+            sort(vertices.begin(), vertices.end(), [](vector<int> & a, vector<int> & b){ return b.size() < a.size(); });
+            for(int i= 0; i < numVertices; i++){
+                if(vertices[i].size() != 0){
+                    fprintf(arq,"Componente conexo %d: ", i);
+                    for(int v: vertices[i]){
+                        fprintf(arq,"%d ", v+1);
+                    }
                 }
+
+                fprintf(arq,"\n");
             }
             
             fclose(arq);
@@ -281,7 +287,7 @@ int main() {
     teste.InsertGrafo();
     // cout << teste.NumVertices() << " " << teste.NumArestas() << "\n";
     //cin >> u >> v;
-    teste.dfs(2);
+    teste.conexao();
     // cout << teste.Distancia(2,3) << "\n";
     // cout << teste.Diametro();
    
