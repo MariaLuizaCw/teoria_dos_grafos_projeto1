@@ -91,6 +91,7 @@ class biblioteca{
                     s.pop();        
                     if(marcado[f] != -1) continue;    
                     marcado[f] = 1;
+
                     for(int vizinho:grafo[f]){
                         s.push(vizinho);
                         if(marcado[vizinho] == 1) continue;
@@ -181,7 +182,7 @@ class biblioteca{
             }
             
             fclose(arq);
-        };
+        }
 
 
         vector<int> bfs(int ini){
@@ -284,6 +285,6 @@ int main() {
     teste.dfs(2);
     // cout << teste.Distancia(2,3) << "\n";
     // cout << teste.Diametro();
-   
+    teste.conexao();
     return 0;
 }
