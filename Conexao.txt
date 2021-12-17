@@ -1,7 +1,0 @@
-Componente conexo 0: 4 5 6 
-Componente conexo 1: 1 2 
-Componente conexo 2: 3 7 
-
-
-
-

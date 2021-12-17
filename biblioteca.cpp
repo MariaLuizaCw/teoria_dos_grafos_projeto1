@@ -7,8 +7,8 @@ class biblioteca{
     int numVertices;
     int numArestas = 0;
     int matriz;
-    
     vector<vector<int>>grafo;
+    
     public:
         biblioteca(int, int);
         // Insere Grafo
@@ -42,6 +42,8 @@ class biblioteca{
                 }
                 grafo = arestasLista;
             }
+            
+
             sort(graus.begin(), graus.end());
             for(int g:graus){
                 medio += g;
@@ -55,10 +57,14 @@ class biblioteca{
             } else {
                 mediano =  graus[mid + 1];
             }
+            int mem = sizeof(grafo);
+
             FILE *arq;
             arq = fopen("saida.txt", "wt");
-            fprintf(arq,"Número de Vértices: %d \nNúmeros de Arestas: %d \n", numVertices, numArestas);
+            fprintf(arq,"Número de Vértices: %d \nNúmeros de Arestas: %d\n %d\n", numVertices, numArestas, sizeof(grafo));
             fprintf(arq,"Grau Mínimo: %d \nGrau Máximo: %d \nGrau Médio: %f \nMediana de Grau: %d \n", min, max, medio,  mediano);
+            
+            
             fclose(arq);
         };
         
@@ -176,14 +182,19 @@ class biblioteca{
             arq = fopen("Conexao.txt", "wt");
 
             sort(vertices.begin(), vertices.end(), [](vector<int> & a, vector<int> & b){ return b.size() < a.size(); });
+            
             for(int i= 0; i < numVertices; i++){
                 if(vertices[i].size() != 0){
+                    int numcomponentes=0;
                     fprintf(arq,"Componente conexo %d: ", i);
                     for(int v: vertices[i]){
+                        numcomponentes++;
                         fprintf(arq,"%d ", v+1);
                     }
+                //cout << numcomponentes << "\n";    
+                fprintf(arq, " --> Número de componentes: %d\n", numcomponentes);    
                 }
-
+                
                 fprintf(arq,"\n");
             }
             
@@ -211,10 +222,8 @@ class biblioteca{
                     }
                 }
                 GerarArquivoBusca(pai, nivel);
-                for(int i = 0; i< numVertices; i++){
-                    cout << i << ' ' << nivel[i] << '\n';
-                }
                 return nivel;
+
             }else{
                 vector<int>pai(numVertices, -1);
                 vector<int>nivel(numVertices, -1);
@@ -234,9 +243,6 @@ class biblioteca{
                     }
                 }
                 GerarArquivoBusca(pai, nivel);
-                for(int i = 0; i< numVertices; i++){
-                     cout << i << ' ' << nivel[i] << '\n';
-                }
                 return nivel;
             }
                 
@@ -286,11 +292,9 @@ int main() {
     cin >> numVertices;
     biblioteca teste(numVertices, 0);
     teste.InsertGrafo();
-    // cout << teste.NumVertices() << " " << teste.NumArestas() << "\n";
-    //cin >> u >> v;
-    teste.conexao();
-    // cout << teste.Distancia(2,3) << "\n";
-    // cout << teste.Diametro();
-    teste.conexao();
+    
+    //teste.conexao();
+    teste.Diametro();
+    
     return 0;
 }

@@ -1,6 +1,7 @@
-Número de Vértices: 7 
-Números de Arestas: 4 
+Número de Vértices: 100054 
+Números de Arestas: 3433247
+ 12
 Grau Mínimo: 1 
-Grau Máximo: 2 
-Grau Médio: 1.142857 
-Mediana de Grau: 1 
+Grau Máximo: 148 
+Grau Médio: 68.627884 
+Mediana de Grau: 72 
