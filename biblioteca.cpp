@@ -277,22 +277,19 @@ class biblioteca{
 
 
 
-    int DiametroAprox(){
+    int DiametroEmArvore(){
         //Fazer interação sobre os grupos conexos..
         int max = -1;
-        
         vector<vector<int>>gruposVerticesConexos = conexao();
         
-        for(int i = 0;i < numVertices; i++){
-            
+        for(int i = 0;i < numVertices; i++){    
             if(gruposVerticesConexos[i].size() != 0){
                 printf("GRUPO %d\n", i);
                 vector<int>v = gruposVerticesConexos[i];
                 
-                int prim = v[0]; 
-                printf("O primeiro elemento do grupo: %d\n", prim + 1);
-
-                vector<int>niveis = bfs(prim + 1);
+                int prim = v[0] + 1; 
+                printf("O primeiro elemento do grupo: %d\n", prim);
+                vector<int>niveis = bfs(prim);
                 int lest = -1 ,poslest;
                 
                 for(int j = 0; j < niveis.size(); j++){
@@ -301,11 +298,9 @@ class biblioteca{
                         poslest = j;
                     }
                 }
-                
-                
-                printf("O ultimo elemento do grupo: %d\n", poslest); 
+                printf("O ultimo elemento do grupo: %d\n", poslest+1); 
                 niveis = bfs(poslest + 1);
-
+                
                 for(int j = 0; j < niveis.size(); j++){
                     if(lest < niveis[j]){
                         lest = niveis[j];
@@ -319,7 +314,6 @@ class biblioteca{
                 }
             }
         }
-
         FILE *arq;
         arq = fopen("Diametro.txt", "wt");
         fprintf(arq,"Diametro: %d\n",max);
@@ -346,7 +340,7 @@ int main() {
     
     //teste.conexao();
     //teste.Diametro();
-    teste.DiametroAprox();
-
+    teste.DiametroEmArvore();
+    
     return 0;
 }

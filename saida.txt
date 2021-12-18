@@ -1,7 +1,7 @@
-Número de Vértices: 968 
-Números de Arestas: 14204
+Número de Vértices: 9989 
+Números de Arestas: 343126
  1878005864
-Grau Mínimo: 2 
-Grau Máximo: 59 
-Grau Médio: 29.347107 
-Mediana de Grau: 31 
+Grau Mínimo: 1 
+Grau Máximo: 149 
+Grau Médio: 68.700768 
+Mediana de Grau: 74 
