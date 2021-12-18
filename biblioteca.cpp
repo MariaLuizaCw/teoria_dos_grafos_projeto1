@@ -61,13 +61,12 @@ class biblioteca{
 
             FILE *arq;
             arq = fopen("saida.txt", "wt");
-            fprintf(arq,"Número de Vértices: %d \nNúmeros de Arestas: %d\n %d\n", numVertices, numArestas, sizeof(grafo));
+            fprintf(arq,"Número de Vértices: %d \nNúmeros de Arestas: %d\n %d\n", numVertices, numArestas);
             fprintf(arq,"Grau Mínimo: %d \nGrau Máximo: %d \nGrau Médio: %f \nMediana de Grau: %d \n", min, max, medio,  mediano);
             
             
             fclose(arq);
         };
-        
 
         void GerarArquivoBusca(vector<int> &pai, vector<int> &nivel){
             FILE *arq;
@@ -165,7 +164,7 @@ class biblioteca{
             }
         };       
 
-        void conexao(){
+        vector<vector<int>> conexao(){
             int atualComponente;
             vector<vector<int>>vertices(numVertices);
             vector<int>componentes(numVertices, -1);
@@ -176,8 +175,6 @@ class biblioteca{
                     atualComponente += 1;
                 }
             }
-
-    
             FILE *arq;
             arq = fopen("Conexao.txt", "wt");
 
@@ -199,6 +196,7 @@ class biblioteca{
             }
             
             fclose(arq);
+            return vertices;
         }
 
 
@@ -277,6 +275,59 @@ class biblioteca{
         return max;
     };
 
+
+
+    int DiametroAprox(){
+        //Fazer interação sobre os grupos conexos..
+        int max = -1;
+        
+        vector<vector<int>>gruposVerticesConexos = conexao();
+        
+        for(int i = 0;i < numVertices; i++){
+            
+            if(gruposVerticesConexos[i].size() != 0){
+                printf("GRUPO %d\n", i);
+                vector<int>v = gruposVerticesConexos[i];
+                
+                int prim = v[0]; 
+                printf("O primeiro elemento do grupo: %d\n", prim + 1);
+
+                vector<int>niveis = bfs(prim + 1);
+                int lest = -1 ,poslest;
+                
+                for(int j = 0; j < niveis.size(); j++){
+                    if(lest < niveis[j]){
+                        lest = niveis[j];
+                        poslest = j;
+                    }
+                }
+                
+                
+                printf("O ultimo elemento do grupo: %d\n", poslest); 
+                niveis = bfs(poslest + 1);
+
+                for(int j = 0; j < niveis.size(); j++){
+                    if(lest < niveis[j]){
+                        lest = niveis[j];
+                        poslest = j;
+                    }
+                }
+
+                printf("Nivel max do grupo: %d\n", lest);
+                if(max < lest){
+                    max = lest;            
+                }
+            }
+        }
+
+        FILE *arq;
+        arq = fopen("Diametro.txt", "wt");
+        fprintf(arq,"Diametro: %d\n",max);
+        fclose(arq);
+        printf("Maximo: %d\n", max);
+        return max;
+    };
+
 };
 
 biblioteca::biblioteca(int n, int m){
@@ -294,7 +345,8 @@ int main() {
     teste.InsertGrafo();
     
     //teste.conexao();
-    teste.Diametro();
-    
+    //teste.Diametro();
+    teste.DiametroAprox();
+
     return 0;
 }
