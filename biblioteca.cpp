@@ -41,6 +41,7 @@ class biblioteca{
                     arestasLista[u].push_back(v);
                 }
                 grafo = arestasLista;
+            
             }
             sort(graus.begin(), graus.end());
             for(int g:graus){
@@ -55,6 +56,8 @@ class biblioteca{
             } else {
                 mediano =  graus[mid + 1];
             }
+            cout << "tamanho: ";
+            cout <<  sizeof(grafo) << '\n';
             FILE *arq;
             arq = fopen("saida.txt", "wt");
             fprintf(arq,"Número de Vértices: %d \nNúmeros de Arestas: %d \n", numVertices, numArestas);
@@ -156,6 +159,7 @@ class biblioteca{
                 }
                
             }
+
         };       
 
         void conexao(){
@@ -173,7 +177,8 @@ class biblioteca{
     
             FILE *arq;
             arq = fopen("Conexao.txt", "wt");
-
+            int lenMaiorComp = -1;
+            int lenMenorComp = numVertices + 1;
             sort(vertices.begin(), vertices.end(), [](vector<int> & a, vector<int> & b){ return b.size() < a.size(); });
             for(int i= 0; i < numVertices; i++){
                 if(vertices[i].size() != 0){
@@ -186,7 +191,10 @@ class biblioteca{
                 fprintf(arq,"\n");
             }
             
+            cout << lenMaiorComp << '\n';
+            cout << lenMenorComp << '\n';
             fclose(arq);
+
         };
 
 
@@ -210,9 +218,6 @@ class biblioteca{
                     }
                 }
                 GerarArquivoBusca(pai, nivel);
-                for(int i = 0; i< numVertices; i++){
-                    cout << i << ' ' << nivel[i] << '\n';
-                }
                 return nivel;
             }else{
                 vector<int>pai(numVertices, -1);
@@ -233,9 +238,6 @@ class biblioteca{
                     }
                 }
                 GerarArquivoBusca(pai, nivel);
-                for(int i = 0; i< numVertices; i++){
-                     cout << i << ' ' << nivel[i] << '\n';
-                }
                 return nivel;
             }
                 
@@ -283,13 +285,11 @@ int main() {
     cin.tie(NULL);
     int numVertices,u,v;
     cin >> numVertices;
-    biblioteca teste(numVertices, 0);
+    biblioteca teste(numVertices, 1);
     teste.InsertGrafo();
-    // cout << teste.NumVertices() << " " << teste.NumArestas() << "\n";
-    //cin >> u >> v;
-    teste.conexao();
-    // cout << teste.Distancia(2,3) << "\n";
-    // cout << teste.Diametro();
-   
+    // cout << teste.Distancia(10, 20) << '\n';
+    // cout << teste.Distancia(10, 30) << '\n';
+    // cout << teste.Distancia(20, 30) << '\n';
+    // teste.conexao();
     return 0;
 }
