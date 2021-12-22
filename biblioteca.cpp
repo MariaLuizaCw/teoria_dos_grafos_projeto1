@@ -273,8 +273,22 @@ class biblioteca{
     };
     int DiametroAproximativo(){
             
-        int numAmostras = log2(numVertices)
-        
+        int numAmostras = log2(numVertices);
+        int diametro = -1;
+        for (int i = 0; i < numAmostras; i++){
+            srand(i);
+            int verticeAleatorio =  rand() % numVertices;
+            vector<int>niveis = bfs(verticeAleatorio);
+            for(int j = 0; j < numVertices; j++){
+                diametro = max(niveis[j], diametro);
+            }
+
+        }
+        FILE *arq;
+        arq = fopen("Diametro_aproximado.txt", "wt");
+        fprintf(arq,"Diametro Aproximado: %d\n",diametro);
+        fclose(arq);
+        return diametro;
     }
 
 };
@@ -290,8 +304,12 @@ int main() {
     cin.tie(NULL);
     int numVertices,u,v;
     cin >> numVertices;
-    biblioteca teste(numVertices, 1);
+    biblioteca teste(numVertices, 0);
+    clock_t startTime = clock();
+
     teste.InsertGrafo();
+    // teste.DiametroAproximativo();
+    cout << double( clock() - startTime ) / (double)CLOCKS_PER_SEC<< " seconds." << endl;
     // cout << teste.Distancia(10, 20) << '\n';
     // cout << teste.Distancia(10, 30) << '\n';
     // cout << teste.Distancia(20, 30) << '\n';

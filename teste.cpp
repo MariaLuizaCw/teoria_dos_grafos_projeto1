@@ -5,15 +5,18 @@
 using namespace std;
 
 
+
+
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    vector<int>teste{4, 2, 1, 3};
-    sort(teste.begin(), teste.end());
-    for(int t: teste){
-        cout << t << '\n';
+    int numVertices = 10;
+    vector<vector<int>>arestasMatriz(numVertices);
+    for(int i = 0; i < numVertices; i++){
+
+        arestasMatriz[i] = (vector<int>(i+1));
     }
-    int u = 7/2;
-    cout << u << '\n';
+    cout << arestasMatriz[4][4] << '\n';
+
     return 0;
 }
