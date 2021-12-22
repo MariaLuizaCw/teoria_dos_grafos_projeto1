@@ -7,8 +7,8 @@ class biblioteca{
     int numVertices;
     int numArestas = 0;
     int matriz;
-    vector<vector<int>>grafo;
     
+    vector<vector<int>>grafo;
     public:
         biblioteca(int, int);
         // Insere Grafo
@@ -43,8 +43,6 @@ class biblioteca{
                 grafo = arestasLista;
             
             }
-            
-
             sort(graus.begin(), graus.end());
             for(int g:graus){
                 medio += g;
@@ -58,21 +56,15 @@ class biblioteca{
             } else {
                 mediano =  graus[mid + 1];
             }
-<<<<<<< HEAD
             cout << "tamanho: ";
             cout <<  sizeof(grafo) << '\n';
-=======
-            int mem = sizeof(grafo);
-
->>>>>>> 8a922220032b0502e5bcd70e38160c2b02561ddf
             FILE *arq;
             arq = fopen("saida.txt", "wt");
-            fprintf(arq,"Número de Vértices: %d \nNúmeros de Arestas: %d\n %d\n", numVertices, numArestas);
+            fprintf(arq,"Número de Vértices: %d \nNúmeros de Arestas: %d \n", numVertices, numArestas);
             fprintf(arq,"Grau Mínimo: %d \nGrau Máximo: %d \nGrau Médio: %f \nMediana de Grau: %d \n", min, max, medio,  mediano);
-            
-            
             fclose(arq);
         };
+        
 
         void GerarArquivoBusca(vector<int> &pai, vector<int> &nivel){
             FILE *arq;
@@ -102,7 +94,6 @@ class biblioteca{
                     s.pop();        
                     if(marcado[f] != -1) continue;    
                     marcado[f] = 1;
-
                     for(int vizinho:grafo[f]){
                         s.push(vizinho);
                         if(marcado[vizinho] == 1) continue;
@@ -171,7 +162,7 @@ class biblioteca{
 
         };       
 
-        vector<vector<int>> conexao(){
+        void conexao(){
             int atualComponente;
             vector<vector<int>>vertices(numVertices);
             vector<int>componentes(numVertices, -1);
@@ -182,37 +173,29 @@ class biblioteca{
                     atualComponente += 1;
                 }
             }
+
+    
             FILE *arq;
             arq = fopen("Conexao.txt", "wt");
             int lenMaiorComp = -1;
             int lenMenorComp = numVertices + 1;
             sort(vertices.begin(), vertices.end(), [](vector<int> & a, vector<int> & b){ return b.size() < a.size(); });
-            
             for(int i= 0; i < numVertices; i++){
                 if(vertices[i].size() != 0){
-                    int numcomponentes=0;
                     fprintf(arq,"Componente conexo %d: ", i);
                     for(int v: vertices[i]){
-                        numcomponentes++;
                         fprintf(arq,"%d ", v+1);
                     }
-                //cout << numcomponentes << "\n";    
-                fprintf(arq, " --> Número de componentes: %d\n", numcomponentes);    
                 }
-                
+
                 fprintf(arq,"\n");
             }
             
             cout << lenMaiorComp << '\n';
             cout << lenMenorComp << '\n';
             fclose(arq);
-<<<<<<< HEAD
 
         };
-=======
-            return vertices;
-        }
->>>>>>> 8a922220032b0502e5bcd70e38160c2b02561ddf
 
 
         vector<int> bfs(int ini){
@@ -236,7 +219,6 @@ class biblioteca{
                 }
                 GerarArquivoBusca(pai, nivel);
                 return nivel;
-
             }else{
                 vector<int>pai(numVertices, -1);
                 vector<int>nivel(numVertices, -1);
@@ -289,53 +271,11 @@ class biblioteca{
         fclose(arq);
         return max;
     };
-
-
-
-    int DiametroEmArvore(){
-        //Fazer interação sobre os grupos conexos..
-        int max = -1;
-        vector<vector<int>>gruposVerticesConexos = conexao();
+    int DiametroAproximativo(){
+            
+        int numAmostras = log2(numVertices)
         
-        for(int i = 0;i < numVertices; i++){    
-            if(gruposVerticesConexos[i].size() != 0){
-                printf("GRUPO %d\n", i);
-                vector<int>v = gruposVerticesConexos[i];
-                
-                int prim = v[0] + 1; 
-                printf("O primeiro elemento do grupo: %d\n", prim);
-                vector<int>niveis = bfs(prim);
-                int lest = -1 ,poslest;
-                
-                for(int j = 0; j < niveis.size(); j++){
-                    if(lest < niveis[j]){
-                        lest = niveis[j];
-                        poslest = j;
-                    }
-                }
-                printf("O ultimo elemento do grupo: %d\n", poslest+1); 
-                niveis = bfs(poslest + 1);
-                
-                for(int j = 0; j < niveis.size(); j++){
-                    if(lest < niveis[j]){
-                        lest = niveis[j];
-                        poslest = j;
-                    }
-                }
-
-                printf("Nivel max do grupo: %d\n", lest);
-                if(max < lest){
-                    max = lest;            
-                }
-            }
-        }
-        FILE *arq;
-        arq = fopen("Diametro.txt", "wt");
-        fprintf(arq,"Diametro: %d\n",max);
-        fclose(arq);
-        printf("Maximo: %d\n", max);
-        return max;
-    };
+    }
 
 };
 
@@ -352,17 +292,9 @@ int main() {
     cin >> numVertices;
     biblioteca teste(numVertices, 1);
     teste.InsertGrafo();
-<<<<<<< HEAD
     // cout << teste.Distancia(10, 20) << '\n';
     // cout << teste.Distancia(10, 30) << '\n';
     // cout << teste.Distancia(20, 30) << '\n';
     // teste.conexao();
-=======
-    
-    //teste.conexao();
-    //teste.Diametro();
-    teste.DiametroEmArvore();
-    
->>>>>>> 8a922220032b0502e5bcd70e38160c2b02561ddf
     return 0;
 }
