@@ -41,7 +41,11 @@ class biblioteca{
                     arestasLista[u].push_back(v);
                 }
                 grafo = arestasLista;
-            
+                // int totalBytes = 0;
+                // for(int v = 0; v < numVertices; v++){
+                //     totalBytes += graus[v]*12;
+                // }
+                // cout << totalBytes << '\n';
             }
             sort(graus.begin(), graus.end());
             for(int g:graus){
@@ -63,6 +67,7 @@ class biblioteca{
             fprintf(arq,"Número de Vértices: %d \nNúmeros de Arestas: %d \n", numVertices, numArestas);
             fprintf(arq,"Grau Mínimo: %d \nGrau Máximo: %d \nGrau Médio: %f \nMediana de Grau: %d \n", min, max, medio,  mediano);
             fclose(arq);
+
         };
         
 
@@ -277,7 +282,7 @@ class biblioteca{
         int diametro = -1;
         for (int i = 0; i < numAmostras; i++){
             srand(i);
-            int verticeAleatorio =  rand() % numVertices;
+            int verticeAleatorio =  rand() % numVertices + 1;
             vector<int>niveis = bfs(verticeAleatorio);
             for(int j = 0; j < numVertices; j++){
                 diametro = max(niveis[j], diametro);
@@ -308,8 +313,11 @@ int main() {
     clock_t startTime = clock();
 
     teste.InsertGrafo();
-    // teste.DiametroAproximativo();
-    cout << double( clock() - startTime ) / (double)CLOCKS_PER_SEC<< " seconds." << endl;
+
+    cout << numVertices*numVertices << '\n';
+    // cout << teste.DiametroAproximativo() << '\n';
+
+    // cout << double( clock() - startTime ) / (double)CLOCKS_PER_SEC<< " seconds." << endl;
     // cout << teste.Distancia(10, 20) << '\n';
     // cout << teste.Distancia(10, 30) << '\n';
     // cout << teste.Distancia(20, 30) << '\n';
