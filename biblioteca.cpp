@@ -60,8 +60,6 @@ class biblioteca{
             } else {
                 mediano =  graus[mid + 1];
             }
-            cout << "tamanho: ";
-            cout <<  sizeof(grafo) << '\n';
             FILE *arq;
             arq = fopen("saida.txt", "wt");
             fprintf(arq,"Número de Vértices: %d \nNúmeros de Arestas: %d \n", numVertices, numArestas);
@@ -112,15 +110,12 @@ class biblioteca{
                     int f = s.top();
                     s.pop();
                     if(marcado[f] != -1) continue;  
-                    cout << "analiando: " << f << '\n';
                     marcado[f] = 1;
                     for(int i=0; i< numVertices; i++){
                         if(grafo[f][i] == 1){
                             s.push(i);
                             if(marcado[i] == 1) continue;
-                            cout << "vizinho: " << i << '\n';
                             pai[i] = f;
-                            cout << "pai vizinho: " << f << '\n';
                             nivel[i] = nivel[f] + 1;
                         }    
                     }
@@ -282,7 +277,7 @@ class biblioteca{
         int diametro = -1;
         for (int i = 0; i < numAmostras; i++){
             srand(i);
-            int verticeAleatorio =  rand() % numVertices + 1;
+            int verticeAleatorio =  (rand() % numVertices) + 1;
             vector<int>niveis = bfs(verticeAleatorio);
             for(int j = 0; j < numVertices; j++){
                 diametro = max(niveis[j], diametro);
@@ -295,8 +290,23 @@ class biblioteca{
         fclose(arq);
         return diametro;
     }
+    void Tempo(){
+        int segTotal;
+        clock_t  inicio, fim;
+        inicio = clock();
+        for(int i = 0; i< 1000; i++){
+            srand(i);
+            int verticeAleatorio =  (rand() % numVertices) + 1;
+            vector<int>niveis = dfs(verticeAleatorio);
+        }
 
+        fim = clock();
+        segTotal = fim - inicio;
+        cout << (segTotal)/1000 << "\n";
+
+    };
 };
+
 
 biblioteca::biblioteca(int n, int m){
     numVertices = n;
@@ -309,18 +319,10 @@ int main() {
     cin.tie(NULL);
     int numVertices,u,v;
     cin >> numVertices;
-    biblioteca teste(numVertices, 0);
-    clock_t startTime = clock();
+    biblioteca teste(numVertices, 1);
+    // clock_t startTime = clock();
 
     teste.InsertGrafo();
-
-    cout << numVertices*numVertices << '\n';
-    // cout << teste.DiametroAproximativo() << '\n';
-
-    // cout << double( clock() - startTime ) / (double)CLOCKS_PER_SEC<< " seconds." << endl;
-    // cout << teste.Distancia(10, 20) << '\n';
-    // cout << teste.Distancia(10, 30) << '\n';
-    // cout << teste.Distancia(20, 30) << '\n';
-    // teste.conexao();
+    teste.Tempo();
     return 0;
 }
