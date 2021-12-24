@@ -319,10 +319,13 @@ int main() {
     cin.tie(NULL);
     int numVertices,u,v;
     cin >> numVertices;
-    biblioteca teste(numVertices, 1);
-    // clock_t startTime = clock();
-
-    teste.InsertGrafo();
-    teste.Tempo();
+    biblioteca grafo(numVertices, 0);
+    grafo.InsertGrafo();
+    grafo.bfs(2);
+    grafo.dfs(2);
+    grafo.Diametro();
+    grafo.Distancia(2, 3);
+    grafo.Diametro();
+    grafo.Conexao();
     return 0;
 }
