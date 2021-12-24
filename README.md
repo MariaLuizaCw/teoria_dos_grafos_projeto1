@@ -13,7 +13,8 @@ biblioteca grafo(numVertices, 1);
 
 ### Métodos implementados:
 
-- Inserção do grafo: este método não recebe parâmetros; ao ser executado, realiza a leitura das arestas do grafo no arquivo de entrada até a condição de EOF.
+- Inserção do grafo: este método não recebe parâmetros; ao ser executado, realiza a leitura das arestas do grafo no arquivo de entrada até a condição de EOF e gera um arquivo de texto (saida.txt) contendo número de vértices, números de arestas, grau mínimo, grau máximo, grau médio e mediana de grau: 12 
+
  ```
 grafo.InsertGrafo();
 ```
@@ -37,7 +38,7 @@ grafo.Distancia(2, 3);
 ```
 - Diâmetro aproximado: este método retorna o diâmetro aproximado do grafo e gera um arquivo de arquivo de texto (Diametro_aproximado.txt) com esses valor.
 ```
-grafo.Diametro();
+grafo.DiametroAproximativo();
 ```
 - Verificação de componentes conexos: este método gera um arquivo de texto (Conexao.txt) contendo o número do componentes conexo e seus vértices integrantes.
 ```
