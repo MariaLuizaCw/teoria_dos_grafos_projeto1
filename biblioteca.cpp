@@ -162,7 +162,7 @@ class biblioteca{
 
         };       
 
-        void conexao(){
+        void Conexao(){
             int atualComponente;
             vector<vector<int>>vertices(numVertices);
             vector<int>componentes(numVertices, -1);
@@ -191,8 +191,8 @@ class biblioteca{
                 fprintf(arq,"\n");
             }
             
-            cout << lenMaiorComp << '\n';
-            cout << lenMenorComp << '\n';
+            // cout << lenMaiorComp << '\n';
+            // cout << lenMenorComp << '\n';
             fclose(arq);
 
         };
@@ -326,6 +326,7 @@ int main() {
     grafo.Diametro();
     grafo.Distancia(2, 3);
     grafo.Diametro();
+    grafo.DiametroAproximativo();
     grafo.Conexao();
     return 0;
 }
